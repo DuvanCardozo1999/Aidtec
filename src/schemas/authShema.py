@@ -12,8 +12,8 @@ class TokenSchema(BaseModel):
     access_token: str
     refresh_token: str
 
-    class Config:
-        from_attributes = True
+class Config:
+        orm_mode = True  
 
 class LoginRequest(BaseModel):
     email: str

@@ -10,8 +10,8 @@ class CropBase(BaseModel):
     estimatedHarvestDate: Optional[date] = None
     slug: str
 
-    class Config:
-        from_attributes = True  # Utiliza from_attributes para Pydantic v2
+class Config:
+        orm_mode = True    # Utiliza from_attributes para Pydantic v2
 
 class CropCreate(CropBase):
     slug: Optional[str] = None  # Slug opcional al crear
@@ -29,5 +29,5 @@ class CropOut(BaseModel):
     plantingDate: Optional[date] = None
     estimatedHarvestDate: Optional[date] = None
 
-    class Config:
-        from_attributes = True  # Asegúrate de que esté alineado con Pydantic v2
+class Config:
+        orm_mode = True    # Asegúrate de que esté alineado con Pydantic v2

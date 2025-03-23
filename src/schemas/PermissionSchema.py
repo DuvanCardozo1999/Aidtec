@@ -6,8 +6,8 @@ class PermissionSchema(BaseModel):
     nombre: str
     description: str = None
 
-    class Config:
-        from_attributes = True
+class Config:
+        orm_mode = True  
 
 class CreatePermission(BaseModel):
     name: str

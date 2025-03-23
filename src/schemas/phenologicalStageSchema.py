@@ -14,5 +14,5 @@ class PhenologicalStageUpdate(PhenologicalStageBase):
 class PhenologicalStageResponse(PhenologicalStageBase):
     id: int
 
-    class Config:
-        from_attributes = True
+class Config:
+        orm_mode = True  

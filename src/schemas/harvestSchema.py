@@ -12,8 +12,8 @@ class HarvestBase(BaseModel):
     cantidad_producida_cosecha: float = Field(..., description="Cantidad producida en la cosecha")
     venta_cosecha: float = Field(..., description="Total de venta de la cosecha")
 
-    class Config:
-        from_attributes = True
+class Config:
+        orm_mode = True  
 
 class HarvestCreate(HarvestBase):
     pass
@@ -28,8 +28,8 @@ class HarvestUpdate(BaseModel):
     cantidad_producida_cosecha: Optional[float]
     venta_cosecha: Optional[float]
 
-    class Config:
-        from_attributes = True
+class Config:
+        orm_mode = True  
 
 class HarvestOut(HarvestBase):
     id: int = Field(..., description="ID de la cosecha")
