@@ -1,6 +1,7 @@
 from sqlalchemy import Column, Integer, String, Text
 from sqlalchemy.orm import relationship
 from src.database.database import Base
+from pydantic import BaseModel
 
 class VarietyArrozModel(Base):
     __tablename__ = 'variedad_arroz'
@@ -15,3 +16,12 @@ class VarietyArrozModel(Base):
 
     # Relación inversa con VarietyRiceStageModel
     stages = relationship("VarietyRiceStageModel", back_populates="variety", cascade="all, delete-orphan")
+
+class VarietyRiceStageResponse(BaseModel):
+    id: int
+    nombre: str
+    etapa_fenologica_id: int | None
+    dias_duracion: int | None
+    variedad_arroz_id: int
+    variety: dict  # Include related data if needed
+    phenological_stage: dict  # Include related data if needed
