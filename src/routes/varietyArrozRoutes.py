@@ -5,6 +5,7 @@ from src.controller.varietyArrozController import (
 )
 from src.database.database import get_db
 from src.schemas.varietyArrozSchema import VarietyArrozCreate, VarietyArrozResponse
+from typing import List
 
 VARIETY_ARROZ_ROUTES = APIRouter()
 
@@ -13,10 +14,12 @@ VARIETY_ARROZ_ROUTES = APIRouter()
 def register_variety(variety: VarietyArrozCreate, db: Session = Depends(get_db)):
     return createVariety(variety, db)
 
-# Ruta para listar todas las variedades de arroz
-@VARIETY_ARROZ_ROUTES.get('/list-varieties', response_model=list[VarietyArrozResponse])
+@VARIETY_ARROZ_ROUTES.get('/list-varieties', response_model=List[VarietyArrozResponse])
 def list_varieties(db: Session = Depends(get_db)):
-    return listVarieties(db)
+    # Assuming listVarieties returns a list of ORM objects, not dicts
+    varieties = listVarieties(db)  # This should be a list of ORM objects or dicts
+    # Convert ORM models to Pydantic models (VarietyArrozResponse)
+    return [VarietyArrozResponse.from_orm(variety) for variety in varieties]
 
 # Ruta para obtener una variedad de arroz por ID
 @VARIETY_ARROZ_ROUTES.get('/get-variety/{variety_id}', response_model=VarietyArrozResponse)
