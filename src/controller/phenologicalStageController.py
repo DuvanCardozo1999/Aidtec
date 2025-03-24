@@ -4,8 +4,10 @@ from fastapi import HTTPException
 from src.models.phenologicalStageModel import PhenologicalStage
 from src.schemas.phenologicalStageSchema import PhenologicalStageCreate, PhenologicalStageUpdate
 
-def get_all_phenological_stages(session: Session):
-    return session.query(PhenologicalStage).all()
+def get_all_phenological_stages(db: Session):
+    # Query all phenological stages from the database
+    stages = db.query(PhenologicalStage).all()
+    return stages
 
 def get_phenological_stage(stage_id: int, session: Session):
     stage = session.query(PhenologicalStage).filter(PhenologicalStage.id == stage_id).first()

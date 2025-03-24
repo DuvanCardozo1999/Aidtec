@@ -14,10 +14,11 @@ from src.schemas.phenologicalStageSchema import (
     PhenologicalStageUpdate,
     PhenologicalStageResponse
 )
+from typing import List
 
 PHENOLOGICAL_STAGE_ROUTES = APIRouter()
 
-@PHENOLOGICAL_STAGE_ROUTES.get("/phenological-stages", response_model=list[PhenologicalStageResponse])
+@PHENOLOGICAL_STAGE_ROUTES.get("/phenological-stages", response_model=List[PhenologicalStageResponse])
 def get_stages_route(db: Session = Depends(get_session)):
     return get_all_phenological_stages(db)
 
