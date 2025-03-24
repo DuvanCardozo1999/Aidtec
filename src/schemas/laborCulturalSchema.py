@@ -9,14 +9,23 @@ class LaborCulturalBase(BaseModel):
     id_etapa_fenologica: Optional[int]  # Relación con PhenologicalStage
 
 class LaborCulturalCreate(LaborCulturalBase):
-    pass
+    nombre: str
+    descripcion: Optional[str] = None
+    precio_hectaria: Optional[float] = None
+    precio_hectaria_estimada: Optional[float] = None
+    id_etapa_fenologica: Optional[int] = None
 
 class LaborCulturalUpdate(LaborCulturalBase):
     pass
 
 class LaborCulturalResponse(LaborCulturalBase):
-    id: int  # Incluir el ID en la respuesta
-    precio_hora_real: Optional[float] = None  # Incluir precio_hora_real en la respuesta
+    id: int
+    nombre: str
+    descripcion: Optional[str] = None
+    precio_hectaria: Optional[float] = None
+    precio_hectaria_estimada: Optional[float] = None
+    id_etapa_fenologica: Optional[int] = None
+    etapa_fenologica: Optional[dict] = None  # Include if you want to return relationship data
 
 class Config:
         orm_mode = True  

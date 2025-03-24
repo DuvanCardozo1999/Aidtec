@@ -16,23 +16,41 @@ def _get_labor_cultural_or_404(labor_id: int, db: Session) -> LaborCultural:
 # Crear una nueva labor cultural
 def create_labor_cultural(labor_data: LaborCulturalCreate, db: Session):
     try:
+        # Create the new labor
         labor = LaborCultural(**labor_data.dict())
         db.add(labor)
         db.commit()
         db.refresh(labor)
-        return labor
+
+        # Convert the SQLAlchemy model to a dictionary
+        labor_dict = {
+            "id": labor.id,
+            "nombre": labor.nombre,
+            "descripcion": labor.descripcion,
+            "precio_hectaria": float(labor.precio_hectaria) if labor.precio_hectaria is not None else None,
+            "precio_hectaria_estimada": float(labor.precio_hectaria_estimada) if labor.precio_hectaria_estimada is not None else None,
+            "id_etapa_fenologica": labor.id_etapa_fenologica,
+        }
+        return labor_dict
     except SQLAlchemyError as e:
         db.rollback()
-        raise HTTPException(status_code=500, detail=f"Error al crear la labor cultural: {str(e)}")
-
+        print(f"Database error: {str(e)}")
+        raise HTTPException(status_code=500, detail="Error al crear la labor cultural. Por favor, intente nuevamente.")
 
 # Obtener todas las labores culturales
 def get_labores_culturales(db: Session):
-    try:
-        return db.query(LaborCultural).all()
-    except SQLAlchemyError as e:
-        raise HTTPException(status_code=500, detail=f"Error al obtener las labores culturales: {str(e)}")
-
+    labores = db.query(LaborCultural).all()
+    return [
+        {
+            "id": labor.id,
+            "nombre": labor.nombre,
+            "descripcion": labor.descripcion,
+            "precio_hectaria": float(labor.precio_hectaria) if labor.precio_hectaria is not None else None,
+            "precio_hectaria_estimada": float(labor.precio_hectaria_estimada) if labor.precio_hectaria_estimada is not None else None,
+            "id_etapa_fenologica": labor.id_etapa_fenologica,
+        }
+        for labor in labores
+    ]
 
 # Obtener una labor cultural por ID
 def get_labor_cultural_by_id(labor_id: int, db: Session):
